@@ -139,7 +139,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>dinput8</TargetName>
-    <OutDir>F:\Other Games\Sekiro - Shadows Die Twice</OutDir>
+    <OutDir>MyOutput</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -241,6 +241,9 @@
       </AddModuleNamesToAssembly>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
+    <PostBuildEvent>
+      <Command> copy /Y "$(TargetPath)" "D:\CINEMA\Sekiro - Shadows Die Twice\wheelNew.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

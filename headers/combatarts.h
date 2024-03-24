@@ -35,4 +35,10 @@ namespace CAFunctions
 	void QueueSelectCombatArt(void* idx);
 
 	bool SelectCombatArt(void* idx);
+
+	void TryUnequipCombatArt(void *idx);
+
+	void QueueUnequipCombatArt(void *idx);
+
+	bool UnequipCombatArt();
 }

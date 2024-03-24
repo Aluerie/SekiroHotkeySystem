@@ -199,7 +199,7 @@ void Configs::ReloadSettings()
         if (Input::CombatArtKeys[i].key1 == ImGuiKey_None)
             continue;
 
-        Input::GameKey* newKey = new Input::GameKey(Input::CombatArtKeys[i], Input::EquipmentModifierKey, CAFunctions::TrySelectCombatArt, CAFunctions::CAUsageMode ? Input::RemoveSpecialModeInputs : nullptr, SelectionMenu::SetShowArtMenu, nullptr);
+        Input::GameKey *newKey = new Input::GameKey(Input::CombatArtKeys[i], Input::EquipmentModifierKey, CAFunctions::TrySelectCombatArt, CAFunctions::TryUnequipCombatArt, SelectionMenu::SetShowArtMenu, nullptr);
         newKey->PressArgs = new short(i);
         newKey->AltPressArgs = new short(i);
         Input::GameKeys.push_back(newKey);
