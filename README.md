@@ -1,4 +1,4 @@
-# Fork Extra Info
+# 🍴 Fork Extra Info
 
 This Fork changes behavior of the mod to the following way:
 
@@ -11,13 +11,16 @@ This way you cannot accidentally press Combat Art.
 
 Video Showcase (note how combat icon in the corner fades away and how it doesn't use combat art when I press RMB+LMB in the end):
 
+<https://github.com/Aluerie/SekiroHotkeySystem/assets/33165440/93953574-faeb-4cad-8399-3ba6c316268e>
+
 ## ⚠️ Disclaimer
 
 * I tried to fork two similar projects:
     * Weapon Wheel - [Aluerie/Sekiro-ShiftCombatArt](<https://github.com/Aluerie/Sekiro-ShiftCombatArt>)
     * HotkeySystem - current repo.
-* But both repos have the some annoying animation bug (that will kill you once or twice!).
-    * However, those occurs less when using the mod provided with the other fork.
+* However, both repos have the some annoying bugs.
+    * To be honest, there is less bugs when using the mod provided with the other fork (but the code in it is also quite messy as well).
+    * Other note, is that even base mods have most of those bugs because it was intended by Fromsoft to be able to swap combat arts on the fly.
 
 # Parent repo ReadME
 
