@@ -138,8 +138,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>dinput8</TargetName>
-    <OutDir>MyOutput</OutDir>
+    <TargetName>keyup_hotkey</TargetName>
+    <OutDir>ForkRelease</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -242,7 +242,7 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command> copy /Y "$(TargetPath)" "D:\CINEMA\Sekiro - Shadows Die Twice\wheelNew.dll"</Command>
+      <Command> copy /Y "$(TargetPath)" "D:\CINEMA\Sekiro - Shadows Die Twice\keyup_hotkey.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

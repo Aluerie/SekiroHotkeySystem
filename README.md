@@ -2,16 +2,22 @@
 
 This Fork changes behavior of the mod to the following way:
 
-* When you hold `Shift` down - it equips the combat art in slot1 of settings;
-* When you let `Shift` up - it unequips the combat art in slot1;
+* When you press keys `Combat Art 1`, `Combat Art 2`, ... - you no longer immediately equip the item but rather show a preference that will be used with `Combat Art Key` as described below:
+* It changes the behaviour of the `Combat Art Key` (the one that does Combat Art motion in one click):
+    * When you hold your `Combat Art Key` down - it equips the combat art chosen with previous keys;
+    * When you let `Combat Art Key` up - it unequips the combat art;
+
+This way you cannot accidentally press Combat Art.
+
+Video Showcase (note how combat icon in the corner fades away and how it doesn't use combat art when I press RMB+LMB in the end):
 
 ## ⚠️ Disclaimer
 
 * I tried to fork two similar projects:
     * Weapon Wheel - [Aluerie/Sekiro-ShiftCombatArt](<https://github.com/Aluerie/Sekiro-ShiftCombatArt>)
     * HotkeySystem - current repo.
-* But both repos have the same annoying animation bug (that will kill you once or twice!).
-    * However, it occurs less when using the mod provided with the other fork.
+* But both repos have the some annoying animation bug (that will kill you once or twice!).
+    * However, those occurs less when using the mod provided with the other fork.
 
 # Parent repo ReadME
 

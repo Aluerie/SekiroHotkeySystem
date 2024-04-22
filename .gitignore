@@ -397,6 +397,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# My additions
-MyOutput
+# FORK ADDITIONS START HERE #
+ForkRelease/*.exp
+ForkRelease/*.lib
 .vscode
+# FORK ADDITIONS END HERE #

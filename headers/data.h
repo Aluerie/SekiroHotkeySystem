@@ -31,6 +31,10 @@ namespace Hooks
 
 	byte* GetInputHandler();
 
+	// # FORK ADDITIONS START HERE #
+	uint64_t GetCurrentAnimation();
+	// # FORK ADDITIONS END HERE #
+
 	byte* GetUIValuesBase();
 
 	uint64_t GetPlayerGameData();

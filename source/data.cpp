@@ -62,6 +62,13 @@ byte* Hooks::GetInputHandler()
     return ResolvePointerChain(InputBase, { 0x88, 0x1FF8, 0x80, 0x00 });
 }
 
+// # FORK ADDITIONS START HERE #
+uint64_t Hooks::GetCurrentAnimation()
+{   // the address is taken from Ela's CE Table.
+    return reinterpret_cast<uint64_t>(ResolvePointerChain(InputBase, {0x88, 0x1FF8, 0x10, 0x20}));
+}
+// # FORK ADDITIONS END HERE #
+
 byte* UIBase = reinterpret_cast<byte *>(0x143D67410);
 byte* Hooks::GetUIValuesBase()
 {

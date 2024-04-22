@@ -12,7 +12,7 @@ void Configs::ReadConfigFile()
     int keyValue1 = 0, keyValue2 = 0;
     do
     {
-        Input::ImGuiKeySet keySet = { ImGuiKey_None, ImGuiKey_None };
+        Input::ImGuiKeySet keySet = {ImGuiKey_None, ImGuiKey_None};
         std::wstring keyName = L"Key";
         keyName += std::to_wstring(idx++);
 
@@ -22,7 +22,7 @@ void Configs::ReadConfigFile()
         keyValue2 = GetPrivateProfileInt(L"Combat Arts", (keyName + std::to_wstring(2)).c_str(), -1, configName);
         keySet.key2 = keyValue2 > -1 ? (ImGuiKey)keyValue2 : ImGuiKey_None;
 
-        if((keyValue1 != -1 && keyValue2 != -1) || idx == 1)
+        if ((keyValue1 != -1 && keyValue2 != -1) || idx == 1)
             Input::CombatArtKeys.push_back(keySet);
 
     } while (keyValue1 != -1 && keyValue2 != -1);
@@ -32,7 +32,7 @@ void Configs::ReadConfigFile()
     idx = 0;
     do
     {
-        Input::ImGuiKeySet keySet = { ImGuiKey_None, ImGuiKey_None };
+        Input::ImGuiKeySet keySet = {ImGuiKey_None, ImGuiKey_None};
         std::wstring keyName = L"Key";
         keyName += std::to_wstring(idx++);
 
@@ -74,7 +74,7 @@ void Configs::ReadConfigFile()
     GetPrivateProfileString(L"General", L"TimeMult", L"0.25", inputBuffer, 50, configName);
     ImGui::TimeMult = std::stof(inputBuffer);
 
-    Input::ImGuiKeySet keySet = { ImGuiKey_None, ImGuiKey_None };
+    Input::ImGuiKeySet keySet = {ImGuiKey_None, ImGuiKey_None};
     keySet.key1 = (ImGuiKey)GetPrivateProfileInt(L"General", L"CombatArtKey1", 0, configName);
     keySet.key2 = (ImGuiKey)GetPrivateProfileInt(L"General", L"CombatArtKey2", 0, configName);
     Input::CombatArtKey = keySet;
@@ -91,13 +91,13 @@ void Configs::ReadConfigFile()
     keySet.key2 = (ImGuiKey)GetPrivateProfileInt(L"Prosthetics", L"Key22", 0, configName);
     Input::ProstheticKeys[2] = keySet;
 
-    Input::GameKey* escapeKey = new Input::GameKey({ ImGuiKey_Escape, ImGuiKey_None }, ConfigMenu::QuitConfigMenu);
+    Input::GameKey *escapeKey = new Input::GameKey({ImGuiKey_Escape, ImGuiKey_None}, ConfigMenu::QuitConfigMenu);
     Input::MenuKeys.push_back(escapeKey);
 
-    Input::GameKey* openKey = new Input::GameKey({ ImGuiKey_Tab, ImGuiKey_None }, ConfigMenu::OpenConfigMenu);
+    Input::GameKey *openKey = new Input::GameKey({ImGuiKey_Tab, ImGuiKey_None}, ConfigMenu::OpenConfigMenu);
     Input::MenuKeys.push_back(openKey);
 
-    Input::GameKey* openKeyGamepad = new Input::GameKey({ ImGuiKey_GamepadR3, ImGuiKey_None }, ConfigMenu::OpenConfigMenu);
+    Input::GameKey *openKeyGamepad = new Input::GameKey({ImGuiKey_GamepadR3, ImGuiKey_None}, ConfigMenu::OpenConfigMenu);
     Input::MenuKeys.push_back(openKeyGamepad);
 
     ReloadSettings();
@@ -179,7 +179,7 @@ void Configs::SaveConfigFile()
     configFile.close();
 }
 
-bool Configs::GameKeyCompare(const Input::GameKey* gameKey1, const Input::GameKey* gameKey2)
+bool Configs::GameKeyCompare(const Input::GameKey *gameKey1, const Input::GameKey *gameKey2)
 {
     int keyOneParams = (gameKey1->KeyParams.key1 != ImGuiKey_None) + (gameKey1->KeyParams.key2 != ImGuiKey_None) + (gameKey1->ModKeyParam != ImGuiKey_None);
     int keyTwoParams = (gameKey2->KeyParams.key1 != ImGuiKey_None) + (gameKey2->KeyParams.key2 != ImGuiKey_None) + (gameKey2->ModKeyParam != ImGuiKey_None);
@@ -194,16 +194,44 @@ void Configs::ReloadSettings()
 
     // Combat Arts
     CAFunctions::PerformArraySetup(Input::CombatArtKeys.size());
+    // for (int i = 0; i < Input::CombatArtKeys.size(); i++)
+    // {
+    //     if (Input::CombatArtKeys[i].key1 == ImGuiKey_None)
+    //         continue;
+
+    //     Input::GameKey *newKey = new Input::GameKey(
+    //         Input::CombatArtKeys[i],
+    //         Input::EquipmentModifierKey,
+    //         CAFunctions::TrySelectCombatArt,
+    //         CAFunctions::CAUsageMode ? Input::RemoveSpecialModeInputs : nullptr,
+    //         SelectionMenu::SetShowArtMenu,
+    //         nullptr);
+    //     newKey->PressArgs = new short(i);
+    //     newKey->AltPressArgs = new short(i);
+    //     Input::GameKeys.push_back(newKey);
+    // }
+
+    // I commented above myself
+    // # FORK ADDITIONS START HERE #
+
     for (int i = 0; i < Input::CombatArtKeys.size(); i++)
     {
         if (Input::CombatArtKeys[i].key1 == ImGuiKey_None)
             continue;
 
-        Input::GameKey *newKey = new Input::GameKey(Input::CombatArtKeys[i], Input::EquipmentModifierKey, CAFunctions::TrySelectCombatArt, CAFunctions::TryUnequipCombatArt, SelectionMenu::SetShowArtMenu, nullptr);
+        Input::GameKey *newKey = new Input::GameKey(
+            Input::CombatArtKeys[i],            // Keys (1, 2, 3, 4, 5,... )
+            Input::EquipmentModifierKey,        // Modifier Key (Ctrl)
+            CAFunctions::ChooseCombatArt,       // Action on Key Down
+            nullptr,                            // Action on Key Up
+            SelectionMenu::SetShowArtMenu,      // Action on Key Down + Modifier
+            nullptr);                           // Action on Key Up + Modifier
         newKey->PressArgs = new short(i);
         newKey->AltPressArgs = new short(i);
         Input::GameKeys.push_back(newKey);
     }
+
+    // # FORK ADDITIONS END HERE #
 
     // Prosthetic Sets
     ProstheticFunctions::PerformArraySetup(Input::ProstheticSetKeys.size());
@@ -212,27 +240,41 @@ void Configs::ReloadSettings()
         if (Input::ProstheticSetKeys[i].key1 == ImGuiKey_None)
             continue;
 
-        Input::GameKey* newKey = new Input::GameKey(Input::ProstheticSetKeys[i], Input::EquipmentModifierKey, ProstheticFunctions::TrySelectProsthetics, SelectionMenu::SetShowProstheticMenu);
+        Input::GameKey *newKey = new Input::GameKey(Input::ProstheticSetKeys[i], Input::EquipmentModifierKey, ProstheticFunctions::TrySelectProsthetics, SelectionMenu::SetShowProstheticMenu);
         newKey->PressArgs = new short(i);
         newKey->AltPressArgs = new short(i);
         Input::GameKeys.push_back(newKey);
     }
 
     // Combat Art Key
-    Input::GameKey* newKey = new Input::GameKey(Input::CombatArtKey, Input::AddLongPressInput, Input::RemoveLongPressInput);
-    newKey->PressArgs = new Input::SekiroInputAction(Input::SIA_CombatArt);
-    newKey->ReleaseArgs = new Input::SekiroInputAction(Input::SIA_CombatArt);
+    // Input::GameKey* newKey = new Input::GameKey(Input::CombatArtKey, Input::AddLongPressInput, Input::RemoveLongPressInput);
+    // newKey->PressArgs = new Input::SekiroInputAction(Input::SIA_CombatArt);
+    // newKey->ReleaseArgs = new Input::SekiroInputAction(Input::SIA_CombatArt);
+    // Input::GameKeys.push_back(newKey);
+
+    // I commented above myself
+    // # FORK ADDITIONS START HERE #
+
+    // Combat Art Equip/Unequip Key
+    Input::GameKey *newKey = new Input::GameKey(
+        Input::CombatArtKey,                // Key
+        CAFunctions::TryEquipCombatArt,     // Action on Key Down
+        CAFunctions::TryUnequipCombatArt);  // Action on Key Up
+    newKey->PressArgs = new short(0);
+    newKey->ReleaseArgs = new short(0);
     Input::GameKeys.push_back(newKey);
+
+    // # FORK ADDITIONS END HERE #
 
     // Prosthetics
     for (int i = 0; i < 3; i++)
     {
-        newKey = new Input::GameKey(Input::ProstheticKeys[i], ProstheticFunctions::SelectProsthetic, ProstheticFunctions::ProstheticUsageMode ? Input::RemoveProstheticInputs : nullptr);
+        Input::GameKey *newKey = new Input::GameKey(Input::ProstheticKeys[i], ProstheticFunctions::SelectProsthetic, ProstheticFunctions::ProstheticUsageMode ? Input::RemoveProstheticInputs : nullptr);
         newKey->PressArgs = new short(i);
         Input::GameKeys.push_back(newKey);
     }
 
-    Input::GameKey* closeKey = new Input::GameKey({ Input::EquipmentModifierKey, ImGuiKey_None }, SelectionMenu::CloseMenu);
+    Input::GameKey *closeKey = new Input::GameKey({Input::EquipmentModifierKey, ImGuiKey_None}, SelectionMenu::CloseMenu);
     Input::GameKeys.push_back(closeKey);
 
     // DEBUG
