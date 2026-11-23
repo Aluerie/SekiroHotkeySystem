@@ -1,3 +1,9 @@
+# 💼 ARCHIVE NOTE
+
+Use https://github.com/Aluerie/SekiroDrawnArts
+
+---
+
 # 🍴 Fork Extra Info
 
 This Fork changes behavior of the mod to the following way:
